@@ -1,0 +1,9 @@
+component: express
+name: dialogflowtest1
+stage: dev
+
+inputs:
+  src: ./
+  env:                           # (optional) env vars.
+    DEBUG: 'express:*'
+  region: us-east-1
