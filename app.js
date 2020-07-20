@@ -13,12 +13,7 @@ const app = express();
 
 app.use(helmet());
 
-const corsOptions = {
-  origin: 'https://servoice.net',
-  optionsSuccessStatus: 200 
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -59,9 +54,9 @@ app.post("/intent", async (req, res) => {
   };
 
   const responses = await sessionClient.detectIntent(request);
-  console.log(responses)
+  console.log(responses);
   const response = responses[0].queryResult.action;
-  console.log("RESPONSE==",response);
+  console.log("RESPONSE==", response);
   try {
     if (response === "input.unknown") {
       return res.json({
@@ -75,15 +70,13 @@ app.post("/intent", async (req, res) => {
         //nextModuleNickname: "more.context", // not using here so user can ask another question
         responseExpected: true, //included small talk in loop as they may ask more silly questions
       });
-    } 
-    else if (response === "human.human") {
+    } else if (response === "human.human") {
       return res.json({
         botMessage: null,
         nextModuleNickname: "human", // send to ISC
         responseExpected: false, //included small talk in loop as they may ask more silly questions
       });
-    }
-    else if (response.includes("smalltalk")) {
+    } else if (response.includes("smalltalk")) {
       // not the best way using includes but it works for the MVP
       return res.json({
         botMessage: responses[0].queryResult.fulfillmentText,
