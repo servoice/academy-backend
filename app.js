@@ -75,7 +75,15 @@ app.post("/intent", async (req, res) => {
         //nextModuleNickname: "more.context", // not using here so user can ask another question
         responseExpected: true, //included small talk in loop as they may ask more silly questions
       });
-    } else if (response.includes("smalltalk")) {
+    } 
+    else if (response === "human.human") {
+      return res.json({
+        botMessage: null,
+        nextModuleNickname: "human", // send to ISC
+        responseExpected: false, //included small talk in loop as they may ask more silly questions
+      });
+    }
+    else if (response.includes("smalltalk")) {
       // not the best way using includes but it works for the MVP
       return res.json({
         botMessage: responses[0].queryResult.fulfillmentText,
